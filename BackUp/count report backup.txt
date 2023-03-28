@@ -1,0 +1,340 @@
+<div class="w-full h-full">
+        <div x-cloak x-data="{ all: $persist(true), daily: $persist(false), monthly: $persist(false), yearly: $persist(false) }">
+            <div class="flex flex-col gap-2 pb-1 my-3 rounded">
+              <div class="flex bg-gray-200 rounded-md w-[15.3rem] p-2 ml-5">
+                <button x-on:click.prevent="all = true, daily = false, monthly = false, yearly = false" :class="{'activated': all}" class=" bg-white text-black font-medium text-md activated px-2.5 py-1 hover:bg-gray-500 hover:text-white border rounded-l-md ">All</button>
+
+                <button x-on:click.prevent="all = false, daily = true, monthly = false, yearly = false" :class="{'activated': daily}" class=" bg-white text-black font-medium text-md activated px-2.5 py-1 hover:bg-gray-500 hover:text-white border">Day</button>
+
+                <button x-on:click.prevent="all = false, monthly = true, daily = false, yearly = false" :class="{'activated': monthly}" class=" bg-white text-black font-medium text-md px-2.5 py-1 hover:bg-gray-500 hover:text-white border ">Month</button>
+
+                <button x-on:click.prevent="all = false, yearly = true, daily = false, monthly = false" :class="{'activated': yearly}" class=" bg-white text-black font-medium text-md px-2.5 py-1 hover:bg-gray-500 hover:text-white border rounded-r-md ">Year</button>
+              </div>
+
+                <div>
+                  <form action="/report" method="POST" class="flex jusitfy-center items-center">
+                    @csrf
+                    <div x-show="daily" class="ml-5 flex flex-col">
+                      <label for="dailyDate">Select Range</label>
+                      <input type="date" class="h-8" name="days" value="{{$daySelect}}">
+                    </div>
+                    <div x-show="monthly" class="ml-5 flex flex-col">
+                      <label for="monthlyDate">Select Range</label>
+                      <div>
+                        from:
+                        <input type="date" class="h-8 w-[11.5rem]" value="{{$fromMonthSelect}}" name="fromMonth">
+                        to:
+                        <input type="date" class="h-8 w-[11.5rem]" value="{{$toMonthSelect}}" name="toMonth">
+                      </div>
+                    </div>
+                    <div x-show="yearly" class="ml-5 flex flex-col">
+                      <label for="yearlyDate">Select Range</label>
+                      <div>
+                        from:
+                        <input type="date" class="h-8 w-[11.5rem]" value="{{$fromYearSelect}}" name="fromYear">
+                        to:
+                        <input type="date" class="h-8 w-[11.5rem]" value="{{$toYearSelect}}" name="toYear">
+                      </div>
+                    </div>
+                    
+                    <div x-show="all != true">
+                      <button type="submit" class="bg-white border border-gray-300 ml-3 mt-6 py-1 px-2 rounded font-medium shadow-md hover:bg-gray-100 flex justify-center items-center"><span class="material-symbols-outlined">search</span>Search</button>
+                    </div>
+                  </form>
+                </div>
+                
+              <form action="/report/export" method="POST" x-show="all">
+                @csrf
+                <div class="absolute right-5 top-4">
+                  <button type="submit" name="exportExcel" class="flex justify-center items-center bg-slate-100 border border-slate-200 hover:bg-slate-200 hover:border-slate-100 gap-1 shadow-lg px-2 py-1"> <span class="material-symbols-outlined">download</span>Export</button>
+                </div>
+              </form>
+            </div>
+
+            <div x-cloak x-show="all">
+              <div>
+                <div class="shadow-lg h-full mx-5">
+                  <div class="mb-2 font-medium text-xl px-2 py-2 rounded-t-lg bg-green-500 text-white">
+                    All Records
+                    <hr>
+                  </div>
+                  <table class="w-full text-sm overflow-y-scroll text-left text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr class="border-b-2 border-green-500">
+                              <th scope="col" class="py-2 px-7">
+                                <label for="Program" class="block mb-2 text-sm text-gray-500">Program</label>
+                              </th>
+                              <th scope="col" class="py-2 px-6">
+                                  Gender
+                              </th>
+                              <th scope="col" class="py-2 px-6">   
+                                Count
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                              @foreach ($all as $count)
+                              
+                                 
+                                  <tr class="bg-white border-b hover:bg-gray-50"> 
+                                    <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="py-2 pl-3 text-base font-semibold">
+                                        {{$count->program}}
+                                      </div> 
+                                    </th>                              
+                                      <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                         {{$count->gender}}
+                                        </div>
+                                      </td>
+                                    <td class="py-2 px-6">
+                                        <div class="flex items-center">
+                                          {{$count->gender_count}}
+                                        </div>
+                                    </td>
+                              @endforeach
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div x-cloak x-show="daily">
+              <div>
+                <div class="shadow-lg h-full mx-5">
+                  <div class="mb-2 font-medium text-xl px-2 py-2 rounded-t-lg bg-green-500 text-white">
+                    Daily Records
+                    <hr>
+                  </div>
+                  <table class="w-full text-sm overflow-y-scroll text-left text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr class="border-b-2 border-green-500">
+                              <th scope="col" class="py-2 px-7">
+                                <label for="Program" class="block mb-2 text-sm text-gray-500">Program</label>
+                              </th>
+                              <th scope="col" class="py-2 px-6">
+                                  Gender
+                              </th>
+                              <th scope="col" class="py-2 px-6">
+                                Count
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        @if($daysData)
+                              @forelse ($daysData as $count)
+                                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                                    <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="py-2 pl-3 text-base font-semibold">
+                                        {{$count->program}}
+                                      </div> 
+                                    </th>
+                                    <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="flex items-center">
+                                        {{$count->gender}}
+                                      </div>
+                                    </td>
+                                    <td class="py-2 px-6">
+                                        <div class="flex items-center"> 
+                                          {{$count->gender_count}}
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  @empty
+                                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="pl-3 text-base font-semibold text-red-400">
+                                        There are no existing data for this day
+                                      </div>
+                                     
+                                    </th>
+                                  </tr>
+                              @endforelse
+                        
+                        @else
+                        @foreach ($dayReport as $count)
+                          
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                          <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                            <div class="pl-3 text-base font-semibold">
+                              {{$count->program}}
+                            </div> 
+                          </th>
+                          <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                            <div class="flex items-center">
+                              {{$count->gender}}
+                            </div>
+                          </td>
+                          <td class="py-2 px-6">
+                              <div class="flex items-center"> 
+                                {{$count->gender_count}}
+                              </div>
+                          </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            
+            </div>
+            <div x-cloak x-show="monthly">
+                <div>
+                    <div class="shadow-lg h-full mx-5">
+                      <div class="mb-2 font-medium text-xl px-2 py-2 rounded-t-lg bg-green-500 text-white">
+                        Monthly Records
+                        <hr>
+                      </div>
+                      <table class="w-full text-sm overflow-y-scroll text-left text-gray-500">
+                          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                              <tr class="border-b-2 border-green-500">
+                                  <th scope="col" class="py-2 px-7">
+                                    <label for="Program" class="block mb-2 text-sm text-gray-500">Program</label>
+                                  </th>
+                                  <th scope="col" class="py-2 px-6">
+                                      Gender
+                                  </th>
+                                  <th scope="col" class="py-2 px-6">
+                                      Count
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            @if ($monthData)
+                                  @forelse ($monthData as $count)
+                                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                                    <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="pl-3 text-base font-semibold">
+                                        {{$count->program}}
+                                      </div> 
+                                    </th>
+                                    <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="flex items-center">
+                                        {{$count->gender}}
+                                      </div>
+                                    </td>
+                                    <td class="py-2 px-6">
+                                        <div class="flex items-center">
+                                          {{$count->gender_count}}
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  @empty
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                      <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                        <div class="pl-3 text-base font-semibold text-red-400">
+                                          There are no existing data for this day
+                                        </div>
+                                      
+                                      </th>
+                                    </tr>
+                                    @endforelse
+                            @else
+                                  @foreach ($monthReport as $count)
+                                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                                        <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                          <div class="pl-3 text-base font-semibold">
+                                            {{$count->program}}
+                                          </div> 
+                                        </th>
+                                        <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                                          <div class="flex items-center">
+                                            {{$count->gender}}
+                                          </div>
+                                        </td>
+                                        <td class="py-2 px-6">
+                                            <div class="flex items-center">
+                                              {{$count->gender_count}}
+                                            </div>
+                                        </td>
+                                      </tr>
+                                  @endforeach
+                            @endif
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+            </div>
+            <div x-cloak x-show="yearly">
+              <div>
+                <div class="shadow-lg h-full mx-5">
+                  <div class="mb-2 font-medium text-xl px-2 py-2 rounded-t-lg bg-green-500 text-white">
+                    Yearly Records
+                    <hr>
+                  </div>
+                  <table class="w-full text-sm overflow-y-scroll text-left text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr class="border-b-2 border-green-500">
+                              <th scope="col" class="py-2 px-7">
+                                <label for="Program" class="block mb-2 text-sm text-gray-500">Program</label>
+                              </th>
+                              <th scope="col" class="py-2 px-6">
+                                  Gender
+                              </th>
+                              <th scope="col" class="py-2 px-6">
+                                Count
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        @if ($yearData)
+                        @forelse ($yearData as $count)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                          <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                            <div class="pl-3 text-base font-semibold">
+                              {{$count->program}}
+                            </div> 
+                          </th>
+                          <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                            <div class="flex items-center">
+                             {{$count->gender}}
+                            </div>
+                          </td>
+                          <td class="py-2 px-6">
+                              <div class="flex items-center">
+                                {{$count->gender_count}}
+                              </div>
+                          </td>
+                        </tr>
+                        @empty
+
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                            <div class="pl-3 text-base font-semibold text-red-400">
+                              There are no existing data for this day
+                            </div>
+                          
+                          </th>
+                        </tr>
+                            
+                        @endforelse
+
+                        @else
+                              @foreach ($yearReport as $count)
+                                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">      
+                                    <th scope="row" class="flex items-center py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="pl-3 text-base font-semibold">
+                                        {{$count->program}}
+                                      </div> 
+                                    </th>
+                                    <td class="py-2 px-6 text-gray-900 whitespace-nowrap">
+                                      <div class="flex items-center">
+                                       {{$count->gender}}
+                                      </div>
+                                    </td>
+                                    <td class="py-2 px-6">
+                                        <div class="flex items-center">
+                                          {{$count->gender_count}}
+                                        </div>
+                                    </td>
+                                  </tr>
+                              @endforeach
+                        @endif
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>

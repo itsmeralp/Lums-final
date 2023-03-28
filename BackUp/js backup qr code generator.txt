@@ -1,0 +1,141 @@
+@extends('layouts.main')
+
+@section('Generator')
+<div class="text">
+    <h1>Generate QR Code</h1>
+    <hr class="w-96">
+</div>
+<main>
+    <div id="generate-form" class="bg-white p-5 h-full">
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="first_name" id="first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off">
+                <label for="first_name" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">First Name</label>
+            </div>
+            <div class="relative z-0 mb-6 w-full group">
+                <input type="text" name="last_name" id="last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off">
+                <label for="last_name" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">Last Name</label>
+            </div>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="text" name="school_id" id="school_id" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off" >
+            <label for="school_id" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">ID No.</label>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <label for="gender" class="block mb-2 text-sm text-gray-500 dark:text-white">Gender</label>
+            <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected value=" ">...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="text" name="program" id="program" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off">
+            <label for="program" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">Program</label>
+        </div>
+        <div class="relative z-0 mb-2 w-full group">
+            <input type="number" name="year_level" id="year_level" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off">
+            <label for="year_level" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">Year Level</label>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <label for="semester" class="block mb-2 text-sm text-gray-500 dark:text-white">Semester</label>
+            <select name="semester" id="semester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected value=" ">...</option>
+            <option value="1st-Semester">1st-Semester</option>
+            <option value="2nd-Semester">2nd-Semester</option>
+            </select>
+        </div>
+        <div class="relative z-0 mb-2 w-full group">
+            <input type="number" name="school_year" id="school_year" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " autocomplete="off">
+            <label for="school_year" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-100 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-100 peer-focus:-translate-y-6">School Year</label>
+        </div>
+        <div class="relative z-0 mb-2 w-full group">
+            <label for="type" class="block mb-2 text-sm text-gray-500 dark:text-white">Patron Type</label>
+            <select name="type" id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected value=" ">...</option>
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Guest">Guest</option>
+            </select>
+        </div>
+
+        <label for="file_name" class="block mb-2 text-sm font-medium text-gray-900">File Name</label>
+        <input type="text" id="file_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+
+
+        <button onclick="generateQR()" class="text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full mt-5 sm:w-auto px-5 py-2.5 text-center">Generate</button>
+    </div>
+
+    <div id="generated" class="bg-white p-5">
+        <div>
+            Preview:
+            
+        </div>
+        <div class="flex justify-center">
+            <canvas class="flex justify-center items-center" id="qr"></canvas>
+        </div>
+    </div>
+    <div>
+        create another
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+let qr;
+
+document.getElementById('generated').style.display = "none";
+        
+(function(){
+     qr = new QRious({
+     element: document.getElementById('qr'),
+     background: 'white',
+     backgroundAlpha: 0.8,
+     foreground: 'black',
+     foregroundAlpha: 0.8,
+     level: 'H',
+     padding: null,
+     size: 200,
+     value: null,
+});
+})();
+
+
+const clearUI = () => {
+        qr.innerHTML = '';
+        const saveBtn = document.getElementById('save-link');
+        if (saveBtn) {
+          saveBtn.remove();
+        }
+      };
+
+const generateQR = () => {
+
+    clearUI();
+
+        const inputValue = document.getElementById('school_id').value + ';' + document.getElementById('first_name').value + ' ' + document.getElementById('last_name').value + ';' + document.getElementById('gender').value + ';' + document.getElementById('program').value + ';' + document.getElementById('year_level').value + ';' + document.getElementById('semester').value + ';' + document.getElementById('school_year').value;
+
+        qr.set({
+            value: inputValue,
+        })
+
+        document.getElementById('generated').style.display = "block";
+
+        document.getElementById('generate-form').style.display = "none";
+
+
+        const link = document.createElement('a');
+
+        link.id = 'save-link';
+        link.href = qr.toDataURL();
+        link.download = document.getElementById('file_name').value;
+        link.innerHTML = 'Save Image';
+        document.getElementById('generated').appendChild(link);
+        
+    }
+
+
+
+</script> 
+@endsection
